@@ -1,0 +1,97 @@
+---
+import '@fontsource-variable/urbanist'
+import urbanist from '@fontsource-variable/urbanist/files/urbanist-latin-wght-normal.woff2'
+import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
+import { SEO } from 'astro-seo'
+
+import Header from '~/components/Header.astro'
+
+import '~/styles/global.css'
+---
+
+<html lang='cs' class='scroll-pt-16 md:scroll-pt-20 scroll-smooth antialiased'>
+  <head>
+    <SEO
+      charset='UTF-8'
+      title='Lukáš Poslední'
+      description='Jmenuji se Lukáš a jsem fotograf z Plzně a okolí. Ať už jde o portréty, svatby nebo focení v ateliéru, vždy se snažím o uvolněnou atmosféru a profesionální přístup.'
+      openGraph={{
+        basic: {
+          title: 'Lukáš Poslední',
+          type: 'website',
+          image: new URL('/og-image.jpg', Astro.url).toString(),
+        },
+        optional: {
+          description:
+            'Jmenuji se Lukáš a jsem fotograf z Plzně a okolí. Ať už jde o portréty, svatby nebo focení v ateliéru, vždy se snažím o uvolněnou atmosféru a profesionální přístup.',
+          locale: 'cs_CZ',
+          siteName: 'Lukáš Poslední',
+        },
+        image: {
+          width: 1200,
+          height: 630,
+          alt: 'Lukáš Poslední OG Image',
+        },
+      }}
+      twitter={{
+        card: 'summary_large_image',
+        title: 'Lukáš Poslední',
+        description:
+          'Jmenuji se Lukáš a jsem fotograf z Plzně a okolí. Ať už jde o portréty, svatby nebo focení v ateliéru, vždy se snažím o uvolněnou atmosféru a profesionální přístup.',
+        image: new URL('/og-image.jpg', Astro.url),
+        imageAlt: 'Lukáš Poslední OG Image',
+      }}
+      extend={{
+        link: [
+          {
+            rel: 'sitemap',
+            href: '/sitemap-index.xml',
+          },
+          {
+            rel: 'preload',
+            as: 'font',
+            type: 'font/woff2',
+            href: urbanist,
+            crossOrigin: 'anonymous',
+          },
+          {
+            rel: 'icon',
+            href: '/favicon.svg',
+            type: 'image/svg+xml',
+          },
+          {
+            rel: 'icon',
+            href: '/favicon.ico',
+            sizes: '32x32',
+          },
+          {
+            rel: 'apple-touch-icon',
+            href: '/apple-touch-icon.png',
+          },
+          {
+            rel: 'manifest',
+            href: new URL('/site.webmanifest', Astro.url).toString(),
+            crossOrigin: 'use-credentials',
+          },
+        ],
+        meta: [
+          {
+            name: 'viewport',
+            content: 'width=device-width,initial-scale=1',
+          },
+          {
+            name: 'google-site-verification',
+            content: '8epkg4pLd_S_OnaVTmaSlWO9JRnbzTQUnYDwx430-eg',
+          },
+        ],
+      }}
+    />
+  </head>
+  <body class='bg-white font-sans text-lg text-neutral-950 md:text-xl'>
+    <Header />
+    <slot />
+    <Analytics />
+    <SpeedInsights />
+  </body>
+</html>

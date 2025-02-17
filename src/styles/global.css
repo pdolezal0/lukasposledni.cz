@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+
+@theme {
+    --*: initial;
+    /* --- */
+    --spacing: 0.25rem;
+    /* --- */
+    --color-black: #000;
+    --color-white: #fff;
+    --color-neutral-50: oklch(0.985 0 0);
+    --color-neutral-100: oklch(0.97 0 0);
+    --color-neutral-200: oklch(0.922 0 0);
+    --color-neutral-300: oklch(0.87 0 0);
+    --color-neutral-400: oklch(0.708 0 0);
+    --color-neutral-500: oklch(0.556 0 0);
+    --color-neutral-600: oklch(0.439 0 0);
+    --color-neutral-700: oklch(0.371 0 0);
+    --color-neutral-800: oklch(0.269 0 0);
+    --color-neutral-900: oklch(0.205 0 0);
+    --color-neutral-950: oklch(0.145 0 0);
+    /* --- */
+    --breakpoint-sm: 40rem;
+    --breakpoint-md: 48rem;
+    --breakpoint-lg: 64rem;
+    /* --- */
+    --container-3xs: 16rem;
+    --container-2xs: 18rem;
+    --container-xs: 20rem;
+    --container-sm: 24rem;
+    --container-md: 28rem;
+    --container-lg: 32rem;
+    --container-xl: 36rem;
+    --container-2xl: 42rem;
+    --container-3xl: 48rem;
+    --container-4xl: 56rem;
+    --container-5xl: 64rem;
+    --container-6xl: 72rem;
+    --container-7xl: 80rem;
+    /* --- */
+    --font-sans: 'Urbanist Variable', sans-serif;
+    /* --- */
+    --text-lg: 1.25rem;
+    --text-lg--line-height: calc(2 / 1.5);
+    --text-lg--font-weight: 700;
+    --text-xl: 1.5rem;
+    --text-xl--line-height: calc(2.25 / 1.875);
+    --text-xl--font-weight: 700;
+}

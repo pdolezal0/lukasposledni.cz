@@ -1,0 +1,114 @@
+---
+import { defineQuery } from 'groq'
+import { PortableText } from 'astro-portabletext'
+import { sanityClient } from 'sanity:client'
+
+import Layout from '~/layouts/Layout.astro'
+import ImageGallery from '~/components/ImageGallery'
+
+import { urlForImage } from '~/utils/image-url'
+import type { PortableTextProps } from 'astro-portabletext/types'
+
+const LANDING_PAGE_QUERY = defineQuery(`
+    *[_type == "landingPage"][0]{
+        gallery {
+            images[] {
+                "id": asset->_id,
+                "url": asset->url,
+                "width": asset->metadata.dimensions.width,
+                "height": asset->metadata.dimensions.height,
+                "lqip": asset->metadata.lqip,
+            }
+        },
+        aboutMe {
+            title,
+            description,
+            "image": {
+                "url": portrait.asset->url,
+                "width": portrait.asset->metadata.dimensions.width,
+                "height": portrait.asset->metadata.dimensions.height,
+                "lqip": portrait.asset->metadata.lqip,
+            }
+        },
+        contact {
+            instagram,
+            email,
+            phone
+        }
+    }`)
+
+const data = await sanityClient.fetch(LANDING_PAGE_QUERY)
+---
+
+<Layout>
+  <section
+    id='galerie'
+    class='my-20 first-of-type:mt-0 last-of-type:mb-20 md:my-40'
+  >
+    <div class='mx-auto max-w-7xl px-5'>
+      <ImageGallery client:load images={data?.gallery.images!} />
+    </div>
+  </section>
+  <section
+    id='o-mne'
+    class='my-20 first-of-type:mt-0 last-of-type:mb-20 md:my-40'
+  >
+    <div class='mx-auto max-w-7xl px-5'>
+      <div class='grid grid-cols-1 gap-x-5 gap-y-10 lg:grid-cols-2'>
+        <div class='max-w-[calc(var(--spacing)*104)] self-end'>
+          <div class='mb-6'>
+            <PortableText
+              value={data?.aboutMe.description as PortableTextProps['value']}
+            />
+          </div>
+          <div>
+            <h3 class='mb-1.25'>Kontakt</h3>
+            <div class='flex flex-col gap-y-1.25'>
+              {
+                data?.contact?.instagram ? (
+                  <a
+                    href={`https://instagram.com/${data?.contact.instagram}`}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    ig: @{data?.contact.instagram}
+                  </a>
+                ) : null
+              }
+              {
+                data?.contact?.instagram ? (
+                  <a href={`mailto:${data?.contact.email}`}>
+                    email: {data?.contact.email}
+                  </a>
+                ) : null
+              }
+              {
+                data?.contact?.instagram ? (
+                  <a href={`tel:+420${data?.contact.phone}`}>
+                    tel: +420 {data?.contact.phone}
+                  </a>
+                ) : null
+              }
+            </div>
+          </div>
+        </div>
+        <div
+          class='order-first max-w-[clamp(256px,75%,var(--container-md))] lg:order-none lg:max-w-lg lg:justify-self-end'
+        >
+          <img
+            src={urlForImage(data?.aboutMe.image.url!).width(1024).url()}
+            alt='Lukáš Poslední'
+            width={data?.aboutMe.image.width!}
+            height={data?.aboutMe.image.height!}
+            loading='lazy'
+            decoding='async'
+            style={{
+              backgroundSize: 'cover',
+              backgroundImage: `url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="img-blur" color-interpolation-filters="sRGB"><feGaussianBlur stdDeviation="20"/><feComponentTransfer><feFuncA type="discrete" tableValues="1 1"/></feComponentTransfer></filter><g filter="url(%23img-blur)"><image width="100%" height="100%" href="${data?.aboutMe.image.lqip}"/></g></svg>')`,
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
